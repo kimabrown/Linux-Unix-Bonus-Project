@@ -1,0 +1,17 @@
+#!/bin/gawk
+#Kima Brown
+#Final Project
+#etl2     
+
+# 6 - Filter blank and NA States
+BEGIN {
+FS=","
+OFS=FS
+FILTERED="filtered_transaction"
+EXCEPT="exceptions.csv"
+}
+
+{
+	if($12=="NA"||$12=="") {print > EXCEPT; next}
+	print > FILTERED
+}

@@ -1,0 +1,29 @@
+#!/bin/gawk
+#Kima Brown
+#Final Project
+#etl7     
+
+# 11a - Generate the following report Transaction Count Report
+BEGIN{
+	FS=","
+	OFS=FS
+}
+{
+        state=$12
+
+	if(!(state in count))
+		count[state]=0
+	count[state]++
+}
+
+END{
+	format="%-10s%-20s\n"
+	print "Transaction Count Report"
+	print ""
+	printf format, "State", "Transaction Count"
+	
+	for(state in count)
+	{
+	  printf format, toupper(state), count[state] | "sort -rn -k2"
+	}
+}

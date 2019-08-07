@@ -1,0 +1,20 @@
+#!/bin/gawk
+#Kima Brown
+#Final Project
+#etl1      
+
+# 5 - Convert gender field values to m,f, or u 
+BEGIN {
+FS=","
+OFS=FS
+OUTPUT2="transaction2"
+OUTPUT3="transaction3"
+OUTPUT4="transaction4"
+}
+{
+	  gender=$5
+	  if(gender=="Female"||gender=="female"||gender=="f"||gender=="1") {$5="f";print > OUTPUT2; next}
+	  if(gender=="Male"||gender=="male"||gender=="m"||gender=="0") {$5="m";print > OUTPUT3; next}
+          $5="u"
+	  print > OUTPUT4
+}

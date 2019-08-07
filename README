@@ -1,0 +1,39 @@
+Kima Brown 
+README INSTRUCTIONS 
+
+My scripts run in this order (with etl.sh being the main script to run all other scripts):
+
+etl.sh etl0.sh  etl1  etl1a.sh  etl2  etl3  etl3a.sh  etl4.sh  etl5  etl6.sh  etl7  etl8 etl9.sh and mysqlimport(to run the database)
+
+Here is an example of running my etl.sh that runs all other scripts (it takes in 5 parameters):
+./etl.sh kbrown52 161.31.72.29 /fall2018/MOCK_MIX_v2.1.csv.bz2 csstudent maxdb
+
+A description of what each script does and how it should be ran individually on the command line is listed below.
+And I hope everthing is clear and made easy for you to process my project.  Thank you it's been a pleasure getting
+to know you this semester and I hope to keep up with you on LinkedIn!  Much success! -Kima
+
+1)  ./etl0.sh $remoteuser $remoteserver $remotefilename "Transfer and unzip file"
+
+2)  awk -f etl1 transaction1 "Convert Gender" "Gender converted" 
+
+3)  ./etl1a.sh "Cat files transaction2-4 after gender converted and remove them" 
+
+4)  awk -f etl2 transaction5 "Create filtered_transaction file and exception.csv file" 
+
+5)  awk -f etl3 filtered_transaction > temp "Remove $ from purchase amount of filtered_transaction file" 
+
+6)  ./etl3a.sh "Move temp file from previous step back to filtered_transaction file"
+
+7)  ./etl4.sh "Sort filtered_transaction file by customerID to create transaction.csv file"
+
+8)  awk -f etl5 transaction.csv > summary.csv "Create the summary.csv file from using the transaction.csv file"
+
+9)  ./etl6.sh "Sort summary.csv file by state zip lastname firstname" 
+
+10) awk -f etl7 transaction.csv > transaction-rpt "Create the transaction-rpt" 
+
+11) awk -f etl8 transaction.csv > purchase-rpt  "Create the purchase-rpt" 
+ 
+12) ./etl9.sh "copy lowercase summary.csv and transaction.csv files to uppercase SUMMARY.CSV and TRANSACTION.CSV file for database"
+
+13) mysqlimport -u $dbusername -p --fields-terminated-by=, --local $dbname SUMMARY.CSV TRANSACTION.CSV

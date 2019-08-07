@@ -1,0 +1,43 @@
+#!/bin/gawk
+#Kima Brown
+#Final Project
+#etl5      
+
+#9
+#Create the beginning with header records to print initial list
+
+BEGIN {
+	
+#Use FS to set comma delimited for correct formatting and reading of file
+FS=","
+OFS=FS
+}
+
+#Set values equal to zero before processing them
+{   
+	customerID=$1
+	purchase=$6
+	state=$12
+	zip=$13
+	lastname=$3
+	firstname=$2
+
+  if(!(customerID in summary))
+   {
+     summary[customerID]=0
+     states[customerID]=state
+     zips[customerID]=zip
+     lname[customerID]=lastname
+     fname[customerID]=firstname
+}
+
+summary[customerID] = summary[customerID]+purchase
+
+}
+
+#Print list of file with correct formats and divisons to calculate fields
+END {
+	for(id in summary) {
+        print id, states[id], zips[id], lname[id], fname[id], summary[id]
+  }
+}

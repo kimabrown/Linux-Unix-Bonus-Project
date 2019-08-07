@@ -1,0 +1,15 @@
+#!/bin/gawk
+#Kima Brown
+#Final Project
+#etl3     
+
+# 7 - Remove the $ from the purchase amount file
+BEGIN{
+	FS=","
+	OFS=FS
+	OUTPUT="filtered_transaction"
+}
+{
+	gsub("\\$","",$6)
+	print
+}

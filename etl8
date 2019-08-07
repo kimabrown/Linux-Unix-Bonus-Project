@@ -1,0 +1,35 @@
+#!/bin/gawk
+#Kima Brown
+#Final Project
+#etl8     
+
+# 11b - Generate the following reports transaction report 
+BEGIN{
+	FS=","
+	OFS=" "
+	print "Purchase Summary Report"
+	print ""
+}
+{
+       StGender=$5$12
+       purchase=$6
+
+       if(!(StGender in summary))
+            summary[StGender]=0
+       summary[StGender]=summary[StGender]+purchase
+}
+
+END{
+	format="%-7s%-9s%-s\n"
+        printf format, "State", "Gender", "Purchase Amount"
+
+	for(StGender in summary)
+	{
+		sg=toupper(StGender)
+		gender=substr(sg,0,1)
+		state=substr(sg,2,2)
+
+	        format1="%-7s%-9s%-.2f\n"
+		printf format1, state, gender, summary[StGender] | "sort -rnk3"
+	}
+}
